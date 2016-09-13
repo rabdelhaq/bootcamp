@@ -16,6 +16,7 @@ with open ('data/salmonella_spi1_region.fna', 'r') as f:
             sequence +=line.rstrip('\n')
     print (sequence)
 
+f.close()
 
 #Question 2.3a
 
@@ -23,7 +24,8 @@ def gc_blocks(seq,block_size):
     """function that divides a sequence into blocks and returns GC content"""
     seq=seq.upper()
     n=block_size
-    x=(len(seq)-(n-1))
+    x=len(seq) % n
+    #x=(len(seq)-(n-1))
     new_seq=[seq[i:i+n] for i in range(0, x, block_size)]
     print (new_seq)
 
@@ -98,4 +100,3 @@ def gc_map(seq,block_size, gc_thresh):
 def longest_orf(sequence):
     """function that takes a DNA sequnce and finds the longest open reading frame
     ORF"""
-    
