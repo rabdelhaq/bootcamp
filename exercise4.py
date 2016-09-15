@@ -64,12 +64,14 @@ df_merge=pd.concat((df_1973, df_1975, df_1987, df_1991,df_2012), ignore_index=Tr
 #load done weight data
 df_bees= pd.read_csv('~/git/bootcamp/data/bee_weight.csv', comment='#')
 
+
+#define function for ECDF
 def ecdf(data):
+    """function to compute the empiricial cumaltive data """
     return np.sort(data), np.arange(1, len(data)+1)/len(data)
 
 
-#separate column 4 and 5
-
+#separate column 4 and 5,  to retrieve weight of control and pesticides
 df_bees34= df_bees.loc[:, ['Weight', 'Treatment']]
 
 #separate control and pesticide groups
@@ -91,7 +93,7 @@ plt.legend(('Control, Pesticide'), loc='lower left')
 
 #Question 4.3: Monte Carlo Simulation (DNA transcription)
 
-
+#define function for step number
 def backtrack_steps(steps):
     """Function the number of steps it takes for a random walker starting at
     position x=0 to get to position x=+1"""
@@ -99,15 +101,16 @@ def backtrack_steps(steps):
     rd_steps=np.random.random(steps)
     return rd_steps
 
+#define random_steps with backtrack function
 random_steps=backtrack_steps(10000)
 
-
+#plot histogram of results
 plt.hist(random_steps, bins=100,normed=True)
 plt.close()
 
-def ecdf(data):
-    return np.sort(data), np.arange(1, len(data)+1)/len(data)
 
-
+#compute ECDF of data
 randx, randy =ecdf(random_steps)
+
+#plot ECDF
 plt.plot(randx, randy, marker='.', linestyle='none')
