@@ -11,18 +11,31 @@ import skimage.segmentation
 from skimage import morphology
 
 #Load the image
+
+#file 1
+#im_phase = skimage.io.imread('data/bsub_100x_phase.tif')
+
+#file2
 im_phase = skimage.io.imread('data/bsub_100x_phase.tif')
 
-#do histogram to determine threshold pixel value
-# Get the histogram data
-hist_phase, bins_phase = skimage.exposure.histogram(im_phase)
 
+
+#histogram to figure out threshold
+#
+# hist_images, bins_images = skimage.exposure.histogram(im_phase)
+# plt.plot(bins_images,hist_images)
+# plt.xlabel('pixel value')
+# plt.ylabel('count')
+# plt.show()
 
 def img_segmentation(im_phase, thresh):
     """function to segment any phase contrast image of bacteria"""
 
     #display the original image
     plt.imshow(im_phase)
+
+    #apply a gaussian blur
+    im_phase_gauss = skimage.filters.gaussian(im_phase, 50.0)
 
 
 
@@ -47,7 +60,8 @@ def img_segmentation(im_phase, thresh):
     plt.show()
 
     #removing objects that are too small
-    im_phase_nosmall = morphology.remove_small_objects(im_phase_thresh, min_size=100)
+    im_phase_nosmall = morphology.remove_small_objects(im_phase_thresh, min_size=450)
+    #min size was only 100 or 200 for the ecoli files, depends on the file type
     plt.imshow(im_phase_nosmall, cmap=plt.cm.Greys_r)
     plt.show()
 
@@ -59,4 +73,4 @@ def img_segmentation(im_phase, thresh):
     plt.imshow(im_phase_noborder, cmap=plt.cm.Greys_r)
     plt.show()
 
-img_segmentation(im_phase, 220)
+img_segmentation(im_phase, 300)
